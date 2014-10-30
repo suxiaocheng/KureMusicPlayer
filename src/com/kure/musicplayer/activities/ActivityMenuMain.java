@@ -21,19 +21,18 @@ import com.kure.musicplayer.kMP;
 
 /**
  * First screen that the user sees - the Main Menu.
- *
- * Must listen for clicks so we can change to the other
- * sub menus (Activities).
- *
+ * 
+ * Must listen for clicks so we can change to the other sub menus (Activities).
+ * 
  * Thanks for providing a basic ListView navigation layout:
  * http://stackoverflow.com/q/19476948
  */
-public class ActivityMenuMain extends ActivityMaster
-	implements OnItemClickListener {
+public class ActivityMenuMain extends ActivityMaster implements
+		OnItemClickListener {
 
 	/**
 	 * All the possible items the user can select on this menu.
-	 *
+	 * 
 	 * Will be initialized with default values on `onCreate`.
 	 */
 	public static final ArrayList<String> items = new ArrayList<String>();
@@ -43,15 +42,15 @@ public class ActivityMenuMain extends ActivityMaster
 
 	/**
 	 * List that will be populated with all the items.
-	 *
+	 * 
 	 * Look for it inside the res/layout xml files.
 	 */
 	ListView listView;
 
 	/**
-	 * ID we'll use when calling the settings window.
-	 * It'll say if the user changed theme or not.
-	 *
+	 * ID we'll use when calling the settings window. It'll say if the user
+	 * changed theme or not.
+	 * 
 	 * @see onActivityResult()
 	 */
 	static final int USER_CHANGED_THEME = 1;
@@ -83,10 +82,11 @@ public class ActivityMenuMain extends ActivityMaster
 			items.add(getString(R.string.menu_main_now_playing));
 
 		// ListView to be populated with the menu items
-		listView = (ListView)findViewById(R.id.activity_main_menu_list);
+		listView = (ListView) findViewById(R.id.activity_main_menu_list);
 
 		// Thing that converts the menu items to the ListView
-		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
+		adapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_list_item_1, items);
 
 		// Filling teh list with all the items
 		listView.setAdapter(adapter);
@@ -102,13 +102,12 @@ public class ActivityMenuMain extends ActivityMaster
 
 	/**
 	 * Starts the background process of scanning the songs.
-	 *
-	 * @param forceScan If we should scan again. You should set
-	 *                  this to true if you want to scan again
-	 *                  the database.
-	 *                  Otherwise, leave it `false` so we don't
-	 *                  rescan the songs when this Activity
-	 *                  is created again for some reason.
+	 * 
+	 * @param forceScan
+	 *            If we should scan again. You should set this to true if you
+	 *            want to scan again the database. Otherwise, leave it `false`
+	 *            so we don't rescan the songs when this Activity is created
+	 *            again for some reason.
 	 */
 	void scanSongs(boolean forceScan) {
 
@@ -116,11 +115,11 @@ public class ActivityMenuMain extends ActivityMaster
 		// We'll only actually do it if they weren't loaded already
 		//
 		// See the implementation right at the end of this class.
-		if ((forceScan) || (! kMP.songs.isInitialized())) {
+		if ((forceScan) || (!kMP.songs.isInitialized())) {
 
 			Toast.makeText(ActivityMenuMain.this,
-					getString(R.string.menu_main_scanning),
-					Toast.LENGTH_LONG).show();
+					getString(R.string.menu_main_scanning), Toast.LENGTH_LONG)
+					.show();
 
 			new ScanSongs().execute();
 		}
@@ -130,7 +129,8 @@ public class ActivityMenuMain extends ActivityMaster
 	 * Will react to the user selecting an item.
 	 */
 	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
 
 		// Gets the string value of the current item and
 		// compares to all possible items.
@@ -138,8 +138,7 @@ public class ActivityMenuMain extends ActivityMaster
 
 		if (currentItem.equals(getString(R.string.menu_main_music))) {
 			startActivity(new Intent(this, ActivityMenuMusic.class));
-		}
-		else if (currentItem.equals(getString(R.string.menu_main_settings))) {
+		} else if (currentItem.equals(getString(R.string.menu_main_settings))) {
 
 			// Let's start the settings screen.
 			// While doing so, we need to know if the user have
@@ -149,15 +148,14 @@ public class ActivityMenuMain extends ActivityMaster
 			Intent settingsIntent = new Intent(this, ActivityMenuSettings.class);
 			startActivityForResult(settingsIntent, USER_CHANGED_THEME);
 
-		}
-		else if (currentItem.equals(getString(R.string.menu_main_shuffle))) {
+		} else if (currentItem.equals(getString(R.string.menu_main_shuffle))) {
 
 			// Can only jump to shuffle all songs if we've
 			// scanned all the songs from the device.
-			if (! kMP.songs.isInitialized()) {
+			if (!kMP.songs.isInitialized()) {
 				Toast.makeText(this,
-			               getString(R.string.menu_music_proceed_error),
-			               Toast.LENGTH_LONG).show();
+						getString(R.string.menu_music_proceed_error),
+						Toast.LENGTH_LONG).show();
 				return;
 			}
 
@@ -170,12 +168,11 @@ public class ActivityMenuMain extends ActivityMaster
 			nowPlayingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
 			startActivity(nowPlayingIntent);
-		}
-		else if (currentItem.equals(getString(R.string.menu_main_now_playing))) {
+		} else if (currentItem
+				.equals(getString(R.string.menu_main_now_playing))) {
 			// Jump to Now Playing screen
 			startActivity(new Intent(this, ActivityNowPlaying.class));
-		}
-		else {
+		} else {
 
 		}
 	}
@@ -198,23 +195,22 @@ public class ActivityMenuMain extends ActivityMaster
 	}
 
 	/**
-	 * We're overriding the default behavior for when the
-	 * user presses the back button.
-	 *
+	 * We're overriding the default behavior for when the user presses the back
+	 * button.
+	 * 
 	 * This way, it'll not react at all.
-	 *
-	 * TODO Improve on this - make it so that when doing this
-	 *      will just keep the app running on the background.
+	 * 
+	 * TODO Improve on this - make it so that when doing this will just keep the
+	 * app running on the background.
 	 */
 	@Override
 	public void onBackPressed() {
 		// default behavior:
-		//finish();
+		// finish();
 	}
 
 	/**
-	 * Activity is about to become visible - let's start the music
-	 * service.
+	 * Activity is about to become visible - let's start the music service.
 	 */
 	@Override
 	protected void onStart() {
@@ -227,14 +223,15 @@ public class ActivityMenuMain extends ActivityMaster
 
 	/**
 	 * Does an action on another Thread.
-	 *
-	 * On this case, we'll scan the songs on the Android device
-	 * without blocking the main Thread.
-	 *
+	 * 
+	 * On this case, we'll scan the songs on the Android device without blocking
+	 * the main Thread.
+	 * 
 	 * It gives a nice pop-up when finishes.
-	 *
+	 * 
 	 * Source:
-	 * http://answers.oreilly.com/topic/2699-how-to-handle-threads-in-android-and-what-you-need-to-watch-for/
+	 * http://answers.oreilly.com/topic/2699-how-to-handle-threads-in-android
+	 * -and-what-you-need-to-watch-for/
 	 */
 	class ScanSongs extends AsyncTask<String, Integer, String> {
 
@@ -247,12 +244,13 @@ public class ActivityMenuMain extends ActivityMaster
 			try {
 				// Will scan all songs on the device
 				kMP.songs.scanSongs(ActivityMenuMain.this, "external");
-				return ActivityMenuMain.this.getString(R.string.menu_main_scanning_ok);
-			}
-			catch (Exception e) {
+				return ActivityMenuMain.this
+						.getString(R.string.menu_main_scanning_ok);
+			} catch (Exception e) {
 				Log.e("Couldn't execute background task", e.toString());
 				e.printStackTrace();
-				return ActivityMenuMain.this.getString(R.string.menu_main_scanning_not_ok);
+				return ActivityMenuMain.this
+						.getString(R.string.menu_main_scanning_not_ok);
 			}
 		}
 
@@ -263,15 +261,13 @@ public class ActivityMenuMain extends ActivityMaster
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 
-			Toast.makeText(ActivityMenuMain.this,
-			               result,
-			               Toast.LENGTH_LONG).show();
+			Toast.makeText(ActivityMenuMain.this, result, Toast.LENGTH_LONG)
+					.show();
 		}
 	}
 
 	/**
-	 * Adds a new item "Now Playing" on the main menu, if
-	 * it ain't there yet.
+	 * Adds a new item "Now Playing" on the main menu, if it ain't there yet.
 	 */
 	public static void addNowPlayingItem(Context c) {
 

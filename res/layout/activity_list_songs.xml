@@ -2,13 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical">
+    android:orientation="vertical" >
 
-      <ListView
-          android:id="@+id/activity_list_songs_list"
-          android:layout_width="fill_parent"
-          android:layout_height="wrap_content"
-          android:fastScrollEnabled="true"
-          />
-          
+    <ListView
+        android:id="@+id/activity_list_songs_list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:fastScrollEnabled="true" />
+
 </LinearLayout>
