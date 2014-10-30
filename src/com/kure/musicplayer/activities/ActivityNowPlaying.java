@@ -118,7 +118,7 @@ public class ActivityNowPlaying extends ActivityMaster implements
 			// If we received an extra with the song position
 			// inside the now playing list, start playing it
 			if (bundle.containsKey("song")) {
-				int songToPlayIndex = (int) bundle.get("song");
+				int songToPlayIndex = (Integer) bundle.get("song");
 
 				// Prepare the music service to play the song.
 				// `setSong` does limit-checking
